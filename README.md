@@ -13,21 +13,45 @@ It is useful for iOS-only Expo apps.
 From the root of your expo app:
 
     npx expo install https://github.com/lzell/aiproxy-expo
+    npx expo install expo-build-properties
 
-Then update your `app.json` to add the config plugin and set your bundle identifier to a string that exactly matches one of your registered [App Identifiers](https://developer.apple.com/account/resources/identifiers/list):
+Then update your `app.json` to add the config plugins and set your bundle identifier to a string that exactly matches one of your registered [App Identifiers](https://developer.apple.com/account/resources/identifiers/list):
 
 ```json
 {
   "expo": {
-    "plugins": ["aiproxy-expo"],
+    "plugins": [
+      "aiproxy-expo",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "18.0"
+          }
+        }
+      ]
+    ],
     "ios": {
       "bundleIdentifier": "<your-bundle-identifier>",
       "appleTeamId": "<your-apple-team>",
-      "deploymentTarget": "17.0"
     }
   }
 }
 ```
+
+Then build and run:
+
+    npx expo prebuild --clean
+    npx expo run:ios --device
+
+## Running your Expo app on the iOS simulator with AIProxy
+
+AIProxy integrations rely on an env variable called `AIPROXY_DEVICE_CHECK_BYPASS` to work on Apple's simulators.
+However, I haven't found a good way to thread the env variable through from an expo app into the generated Xcode scheme.
+Therefore, I recommend building and running on device using `npx expo run:ios --device`.
+Alternatively, you may disable DeviceCheck on your AIProxy service in the left sidebar under 'Settings'.
+Please remember to re-enable DeviceCheck before you ship your app.
+
 
 ## How to reload the module
 

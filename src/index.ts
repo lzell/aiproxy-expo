@@ -38,31 +38,37 @@ export interface AnthropicChatOptions {
 }
 
 export function createOpenAIService(config: AIProxyConfig) {
+  console.log('[aiproxy-expo] createOpenAIService called', { serviceURL: config.serviceURL });
   return {
     async chatCompletion(
       userMessage: string,
       options: OpenAIChatOptions = {}
     ): Promise<string> {
       const { model = 'gpt-4o', systemMessage } = options;
-      return NativeModule.openAIChatCompletion(
+      console.log('[aiproxy-expo] OpenAI chatCompletion called', { model, systemMessage, userMessage });
+      const result = await NativeModule.openAIChatCompletion(
         config.partialKey,
         config.serviceURL,
         model,
         systemMessage ?? null,
         userMessage
       );
+      console.log('[aiproxy-expo] OpenAI chatCompletion result', { result });
+      return result;
     },
   };
 }
 
 export function createAnthropicService(config: AIProxyConfig) {
+  console.log('[aiproxy-expo] createAnthropicService called', { serviceURL: config.serviceURL });
   return {
     async chatCompletion(
       userMessage: string,
       options: AnthropicChatOptions = {}
     ): Promise<string> {
       const { model = 'claude-sonnet-4-20250514', systemMessage, maxTokens = 1024 } = options;
-      return NativeModule.anthropicChatCompletion(
+      console.log('[aiproxy-expo] Anthropic chatCompletion called', { model, systemMessage, maxTokens, userMessage });
+      const result = await NativeModule.anthropicChatCompletion(
         config.partialKey,
         config.serviceURL,
         model,
@@ -70,6 +76,8 @@ export function createAnthropicService(config: AIProxyConfig) {
         userMessage,
         maxTokens
       );
+      console.log('[aiproxy-expo] Anthropic chatCompletion result', { result });
+      return result;
     },
   };
 }
