@@ -18,14 +18,16 @@ Or
 
     npx expo install aiproxy-expo
 
-Then set your iOS deployment target to 17.0 or higher in your expo project's `app.json`:
+Then set your bundle identifier to a string that exactly matches one of your registered [App Identifiers](https://developer.apple.com/account/resources/identifiers/list):
 
 ```json
 {
   "expo": {
-    "ios": {
+      "ios": {
+      "bundleIdentifier": "<your-bundle-identifier>",
+      "appleTeamId": "<your-apple-team>",
       "deploymentTarget": "17.0"
-    }
+    },
   }
 }
 ```
