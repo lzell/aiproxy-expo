@@ -10,27 +10,28 @@ It is useful for iOS-only Expo apps.
 
 ## Installation
 
-Which of these do I want?
+From the root of your expo app:
 
-    npm install aiproxy-expo
+    npx expo install https://github.com/lzell/aiproxy-expo
 
-Or
-
-    npx expo install aiproxy-expo
-
-Then set your bundle identifier to a string that exactly matches one of your registered [App Identifiers](https://developer.apple.com/account/resources/identifiers/list):
+Then update your `app.json` to add the config plugin and set your bundle identifier to a string that exactly matches one of your registered [App Identifiers](https://developer.apple.com/account/resources/identifiers/list):
 
 ```json
 {
   "expo": {
-      "ios": {
+    "plugins": ["aiproxy-expo"],
+    "ios": {
       "bundleIdentifier": "<your-bundle-identifier>",
       "appleTeamId": "<your-apple-team>",
       "deploymentTarget": "17.0"
-    },
+    }
   }
 }
 ```
+
+## How to reload the module
+
+    npm uninstall aiproxy-expo && npm install https://github.com/lzell/aiproxy-expo
 
 ## Building
 
@@ -41,20 +42,18 @@ Then set your bundle identifier to a string that exactly matches one of your reg
 
 This is an Expo Module that bridges native Swift code to JavaScript at runtime.
 
-The [native AIProxy pod](https://github.com/lzell/AIProxySwift/blob/main/AIProxy.podspec) is automatically included as a transitive dependency via `AIProxyExpo.podspec`.
+The [native AIProxy pod](https://github.com/lzell/AIProxySwift/blob/main/AIProxy.podspec) is injected into your app's Podfile via the config plugin in `app.plugin.js`. This plugin runs during `expo prebuild` and adds the AIProxy pod dependency.
 
 Expo's autolinking discovers the module via `expo-module.config.json`.
 
 ```
 aiproxy-expo/
+├── app.plugin.js                 # Config plugin that injects AIProxy pod into Podfile
 ├── expo-module.config.json       # Tells Expo this package has native modules
 ├── ios/
-│   ├── AIProxyExpo.podspec       # CocoaPods spec (depends on AIProxy pod)
+│   ├── AIProxyExpo.podspec       # CocoaPods spec for the bridge module
 │   └── AIProxyExpoModule.swift   # Swift ↔ JS bridge
 └── src/
     └── index.ts                  # TypeScript API
 ```
 
-## Instructions for AIs
-
-- You do not need to create a Config Plugin for this to work with expo iOS apps

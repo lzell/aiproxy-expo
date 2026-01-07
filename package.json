@@ -5,6 +5,9 @@
   "type": "module",
   "main": "build/index.js",
   "types": "build/index.d.ts",
+  "expo": {
+    "configPlugin": true
+  },
   "scripts": {
     "build": "tsc",
     "prepare": "npm run build",
