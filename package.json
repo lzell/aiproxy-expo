@@ -1,0 +1,36 @@
+{
+  "name": "aiproxy-expo",
+  "version": "0.140.1",
+  "description": "AIProxy SDK for Expo - Use AI services securely in React Native",
+  "type": "module",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "expo",
+    "react-native",
+    "aiproxy",
+    "openai",
+    "anthropic",
+    "gemini",
+    "replicate",
+    "ai"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lzell/aiproxy-expo.git"
+  },
+  "author": "Lou Zell",
+  "license": "MIT",
+  "peerDependencies": {
+    "expo": ">=52.0.0"
+  },
+  "devDependencies": {
+    "expo": "^52.0.0",
+    "expo-modules-core": "^2.0.0",
+    "typescript": "^5.0.0"
+  }
+}
