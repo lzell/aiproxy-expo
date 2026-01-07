@@ -81,3 +81,33 @@ aiproxy-expo/
     └── index.ts                  # TypeScript API
 ```
 
+## How to debug wonkiness in an Expo app that relies on AIProxy
+
+Notes on things I've had to do to make Expo pick up my changes, in no particular order:
+
+- Reinstall the `aiproxy-expo` dependency:
+
+    ```
+    npm uninstall aiproxy-expo && npm install https://github.com/lzell/aiproxy-expo
+    ```
+
+- Clear the node modules cache:
+
+    ```
+    rm -rf node_modules/.cache
+    ```
+
+- Rebuild native modules:
+
+    ```
+    npx expo prebuild --clean && npx expo run:ios --device
+    ```
+
+- Restart the dev client (this only works if no native files were changed):
+
+    ```
+    npx expo start --dev-client --clear
+    ```
+
+- Fiddle with the generated Xcode project in the `ios/` folder. This folder gets regenerated on each build, so don't expect changes to stick.
+
