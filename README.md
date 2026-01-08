@@ -6,7 +6,15 @@ It is useful for iOS-only Expo apps.
 ## Requirements
 
 - iOS 17.0+
-- Expo SDK 52+
+- Expo 54+
+- An iOS device
+
+### A physical device is required
+
+AIProxy integrations that use AIProxySwift can normally run on Apple simulators.
+However, I have not found a way to thread one of the required env variables, `AIPROXY_DEVICE_CHECK_BYPASS`, through Expo's tooling and into the Xcode scheme.
+For now, you will need a physical device while you are working on your app's AIProxy integration.
+
 
 ## Installation
 
@@ -40,45 +48,36 @@ Then update your `app.json` to set your bundle identifier to a string that exact
 
 Then build and run:
 
-    npx expo prebuild --clean
-    npx expo run:ios --device
-
-## Running your Expo app on the iOS simulator with AIProxy
-
-AIProxy integrations rely on an env variable called `AIPROXY_DEVICE_CHECK_BYPASS` to work on Apple's simulators.
-However, I haven't found a good way to thread the env variable through from an expo app into the generated Xcode scheme.
-Therefore, I recommend building and running on device using `npx expo run:ios --device`.
-Alternatively, you may disable DeviceCheck on your AIProxy service in the left sidebar under 'Settings'.
-Please remember to re-enable DeviceCheck before you ship your app.
+    npx expo prebuild --clean && npx expo run:ios --device
 
 
 ## How to reload the module
 
     npm uninstall aiproxy-expo && npm install https://github.com/lzell/aiproxy-expo
 
-## Building
-
-    npm install
-    npm run build
 
 ## How it works
 
 This is an Expo Module that bridges native Swift code to JavaScript at runtime.
 
-The [native AIProxy pod](https://github.com/lzell/AIProxySwift/blob/main/AIProxy.podspec) is injected into your app's Podfile via the config plugin in `app.plugin.js`. This plugin runs during `expo prebuild` and adds the AIProxy pod dependency.
+The [native AIProxy pod](https://github.com/lzell/AIProxySwift/blob/main/AIProxy.podspec) is automatically included as a transitive dependency via `ios/AIProxyExpo.podspec`.
 
 Expo's autolinking discovers the module via `expo-module.config.json`.
 
 ```
 aiproxy-expo/
-├── app.plugin.js                 # Config plugin that injects AIProxy pod into Podfile
 ├── expo-module.config.json       # Tells Expo this package has native modules
 ├── ios/
-│   ├── AIProxyExpo.podspec       # CocoaPods spec for the bridge module
+│   ├── AIProxyExpo.podspec       # CocoaPods spec (depends on AIProxy pod)
 │   └── AIProxyExpoModule.swift   # Swift ↔ JS bridge
 └── src/
     └── index.ts                  # TypeScript API
 ```
+
+## Instructions for AIs
+
+- You do not need to create a Config Plugin for this to work with expo iOS apps
+
 
 ## How to debug wonkiness in an Expo app that relies on AIProxy
 
