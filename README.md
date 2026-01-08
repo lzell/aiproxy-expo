@@ -82,8 +82,7 @@ Then build and run:
                 "deploymentTarget": "18.0"
               }
             }
-          ],
-          // ...
+          ]
         ],
         "ios": {
           "bundleIdentifier": "<your-bundle-identifier>",
@@ -110,7 +109,7 @@ Then build and run:
 
 - Edit `app/index.tsx`, plug in your own `partialKey` and `serviceURL` into the snippet below
 
-    ```
+    ```js
     import { useState } from 'react';
     import { Text, View, Button, ActivityIndicator } from 'react-native';
     import { createOpenAIService } from 'aiproxy-expo';
