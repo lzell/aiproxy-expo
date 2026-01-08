@@ -19,7 +19,7 @@ For now, you will need a physical device while you are working on your app's AIP
 
 From the root of your expo app:
 
-    npx expo install https://github.com/lzell/aiproxy-expo
+    npx expo install aiproxy-expo@https://github.com/lzell/aiproxy-expo
     npx expo install expo-build-properties
 
 Then update your `app.json` to set your bundle identifier to a string that exactly matches one of your registered [App Identifiers](https://developer.apple.com/account/resources/identifiers/list):
